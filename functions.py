@@ -45,6 +45,8 @@ def plot_seasonal_decompose(result:DecomposeResult, dates:pd.Series=None, title:
         )
     )
 ######################################################################
+
+######################################################################
 # 02
 # Granger causality
 from statsmodels.tsa.stattools import grangercausalitytests
@@ -58,4 +60,27 @@ def grangerTests(df, feat_cause, max_lag):
                 p_val = gct[i][0]['params_ftest'][1]
                 if p_val <= 0.05:
                     print(f"{feature} granger causes {feat_cause} at lag: {i}. P={round(p_val, 3)}")
+###########################################################################
+
+######################################################################
+# 03
+# day signal
+def daySignal(day_change):
+    if day_change > 0:
+        return 1
+    elif day_change < 0:
+        return -1
+    else:
+        return 0
+###########################################################################
+
+######################################################################
+# 04
+# adding date parts to df
+def addDateParts(df):
+    df['day_of_year'] = df.index.day
+    df['day_of_week'] = df.index.dayofweek
+    df['week'] = df.index.week
+    df['month'] = df.index.month
+    return df
 ###########################################################################
