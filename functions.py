@@ -45,3 +45,17 @@ def plot_seasonal_decompose(result:DecomposeResult, dates:pd.Series=None, title:
         )
     )
 ######################################################################
+# 02
+# Granger causality
+from statsmodels.tsa.stattools import grangercausalitytests
+
+def grangerTests(df, feat_cause, max_lag):
+    for feature in df.columns:
+        if feature not in ('Date', feat_cause):
+            #print(f"Testing {feature}...")
+            gct = grangercausalitytests(df[[feature, feat_cause]], maxlag=max_lag, verbose=0)
+            for i in range (1, max_lag+1):
+                p_val = gct[i][0]['params_ftest'][1]
+                if p_val <= 0.05:
+                    print(f"{feature} granger causes {feat_cause} at lag: {i}. P={round(p_val, 3)}")
+###########################################################################
