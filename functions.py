@@ -53,7 +53,7 @@ from statsmodels.tsa.stattools import grangercausalitytests
 
 def grangerTests(df, feat_cause, max_lag):
     for feature in df.columns:
-        if feature not in ('Date', feat_cause):
+        if feature not in ('Date', feat_cause) and feature[-4:-1] != 'lag':
             #print(f"Testing {feature}...")
             gct = grangercausalitytests(df[[feature, feat_cause]], maxlag=max_lag, verbose=0)
             for i in range (1, max_lag+1):
